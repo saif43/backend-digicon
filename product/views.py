@@ -1,4 +1,5 @@
-from rest_framework.permissions import AllowAny
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from product import models, serializers
 from rest_framework import viewsets
 
@@ -10,4 +11,4 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     queryset = models.Product.objects.all()
     serializer_class = serializers.ProductSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]

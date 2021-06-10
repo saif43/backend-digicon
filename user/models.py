@@ -54,7 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Cart(models.Model):
     """model for cart"""
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None)
     product = models.ForeignKey(productModel.Product, on_delete=models.CASCADE)
 
     class Meta:

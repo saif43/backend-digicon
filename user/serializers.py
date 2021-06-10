@@ -1,7 +1,9 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
+import product
 from user import models
+from product import serializers as productSerializer, models as productModel
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -50,3 +52,13 @@ class CartSerializer(serializers.ModelSerializer):
         model = models.Cart
         fields = "__all__"
         read_only_fields = ["id"]
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+
+        product = productModel.Product.objects.get(id=response["product"])
+
+        response["product"] = productSerializer.ProductSerializer(product).data
+        response["product"].pop("added_to_cart")
+
+        return response
